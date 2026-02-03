@@ -213,7 +213,7 @@ flowchart LR
 | 产品 | 图标 | 描述 | 跳转链接 |
 |------|------|------|----------|
 | Raycast | 官网 Logo | 全能的 AI 助手 | https://www.raycast.com |
-| Typeless | 官网 Logo | AI 驱动的效率工具 | https://typeless.app |
+| Typeless | 官网 Logo | AI 驱动的效率工具 | https://www.typeless.com |
 | Gemini | 官网 Logo | Google AI 助手 | https://gemini.google.com |
 | Kimi | 官网 Logo | 国产 AI 长文本助手 | https://kimi.moonshot.cn |
 
@@ -368,7 +368,7 @@ flowchart LR
 |------|------|
 | 小标题 | NEXT STEPS |
 | 大标题 | Start a Project |
-| 描述 | 与AI交朋友，跟着大熊一起AI，拒绝焦虑！<br/>有好的想法？我们一起聊聊。 |
+| 描述 | 有好的想法？我们一起聊聊。 |
 | 按钮 | CONTACT ME ↗ |
 
 **Friends 链接映射**
@@ -516,6 +516,25 @@ flowchart LR
 - 动画：Framer Motion / GSAP
 - 图标：Lucide / Heroicons
 - 响应式：Mobile First 策略
+
+---
+
+## 10. 部署与安全
+
+### 10.1 部署平台
+- **Frontend**: Vercel (推荐)
+- **Database**: Supabase
+- **Environment Variables**:
+  - `NEXT_PUBLIC_SUPABASE_URL`
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+### 10.2 安全策略
+- **代码仓库**: GitHub (Private/Public)
+- **敏感信息**: 
+  - 所有密钥存储在 `.env.local`
+  - `.env.local` 必须加入 `.gitignore`
+  - 生产环境密钥在 Vercel控制台 配置
+- **文档管理**: `docs/` 目录不上传至 GitHub，包含 PRD 等敏感文档
 
 ---
 
