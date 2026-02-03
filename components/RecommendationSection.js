@@ -37,7 +37,7 @@ export default function RecommendationSection() {
                     <h2 className="text-3xl font-bold tracking-wide">RECOMMEND <span className="text-secondary font-normal text-xl ml-4">产品推荐</span></h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     {recommendations.map((item, index) => (
                         <motion.a
                             key={index}
