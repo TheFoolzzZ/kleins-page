@@ -24,7 +24,6 @@ export default function AboutSection() {
                         <h4 className="text-primary font-bold tracking-widest uppercase text-sm">■ NEXT STEPS</h4>
                         <h2 className="text-5xl md:text-6xl font-bold">Start a Project</h2>
                         <p className="text-gray-400 text-xl max-w-md leading-relaxed">
-                            与AI交朋友，跟着大熊一起AI，拒绝焦虑！<br />
                             有好的想法？我们一起聊聊。
                         </p>
                         <div className="pt-4">
