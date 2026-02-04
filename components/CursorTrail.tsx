@@ -13,8 +13,9 @@ export default function CursorTrail() {
       "(prefers-reduced-motion: reduce)"
     );
     const coarsePointer = window.matchMedia("(pointer: coarse)");
+    const nav = navigator as Navigator & { deviceMemory?: number };
     const lowEndDevice =
-      (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
+      (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4) ||
       (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
 
     const reduceEffects =
