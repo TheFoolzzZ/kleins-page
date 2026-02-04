@@ -30,7 +30,7 @@ const recommendations = [
 
 export default function RecommendationSection() {
     return (
-        <section id="recommend" className="py-20 bg-transparent text-foreground relative z-10">
+        <section id="recommend" className="pt-10 pb-16 bg-transparent text-foreground relative z-10">
             <div className="container mx-auto px-4 md:px-12 max-w-[1280px]">
                 <div className="flex items-center gap-4 mb-12">
                     <div className="w-1 h-8 bg-primary"></div>

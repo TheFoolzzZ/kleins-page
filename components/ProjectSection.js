@@ -27,7 +27,7 @@ export default function ProjectSection() {
     if (projects.length === 0) return null;
 
     return (
-        <section id="projects" className="py-24 bg-transparent relative">
+        <section id="projects" className="py-20 bg-transparent relative">
             <div className="container mx-auto px-4 md:px-12 max-w-[1440px]">
                 <div className="flex items-center gap-4 mb-16">
                     <div className="w-1 h-8 bg-primary"></div>

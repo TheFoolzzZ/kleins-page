@@ -56,7 +56,7 @@ export default function HeroSection() {
     return (
         <section
             id="home"
-            className="min-h-screen pt-20 flex items-center relative overflow-hidden bg-transparent"
+            className="min-h-[80vh] pt-24 pb-10 flex items-start relative overflow-hidden bg-transparent"
         >
             <div className="container mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-[1280px]">
 

@@ -16,7 +16,7 @@ export default function AboutSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
-        <footer id="about" className="neo-footer text-foreground pt-24 pb-8 relative overflow-hidden">
+        <footer id="about" className="neo-footer text-foreground pt-16 pb-8 relative overflow-hidden">
             <div className="container mx-auto px-4 md:px-12 max-w-[1280px]">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
                     {/* Left: Next Steps */}
