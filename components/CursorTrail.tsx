@@ -16,7 +16,8 @@ export default function CursorTrail() {
     const nav = navigator as Navigator & { deviceMemory?: number };
     const lowEndDevice =
       (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4) ||
-      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+      (typeof navigator.hardwareConcurrency === "number" &&
+        navigator.hardwareConcurrency <= 4);
 
     const reduceEffects =
       prefersReducedMotion.matches || coarsePointer.matches || lowEndDevice;
