@@ -30,7 +30,7 @@ const recommendations = [
 
 export default function RecommendationSection() {
     return (
-        <section id="recommend" className="py-20 bg-background text-foreground relative z-10">
+        <section id="recommend" className="py-20 bg-transparent text-foreground relative z-10">
             <div className="container mx-auto px-4 md:px-12 max-w-[1280px]">
                 <div className="flex items-center gap-4 mb-12">
                     <div className="w-1 h-8 bg-primary"></div>
@@ -44,11 +44,11 @@ export default function RecommendationSection() {
                             href={item.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group relative block p-6 border border-border rounded-xl bg-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                            className="group relative block p-6 border border-[var(--panel-border)] rounded-xl neo-card transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
                             whileHover={{ y: -4 }}
                         >
                             <div className="mb-6 flex justify-between items-start">
-                                <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center overflow-hidden border border-[var(--panel-border)] neo-panel">
                                     <Image
                                         src={`https://www.google.com/s2/favicons?domain=${new URL(item.url).hostname}&sz=128`}
                                         alt={`${item.name} icon`}

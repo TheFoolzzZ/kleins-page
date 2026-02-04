@@ -56,15 +56,15 @@ export default function HeroSection() {
     return (
         <section
             id="home"
-            className="min-h-screen pt-20 flex items-center relative overflow-hidden bg-gradient-to-b from-[var(--gradient-start)] to-[var(--gradient-end)]"
+            className="min-h-screen pt-20 flex items-center relative overflow-hidden bg-transparent"
         >
             <div className="container mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-[1280px]">
 
                 {/* Left Content */}
                 <div className="space-y-8 relative z-10">
-                    <div className="flex items-center gap-2 text-primary font-bold">
+                    <div className="flex items-center gap-2 text-primary font-bold neo-label">
                         <span className="w-8 h-[2px] bg-primary block"></span>
-                        PORTFOLIO 2026
+                        AI EXPLORER 2026
                     </div>
 
                     <h1 className="text-6xl md:text-7xl font-bold leading-[1.1] tracking-tight text-shadow">
@@ -96,10 +96,10 @@ export default function HeroSection() {
                     </div>
 
                     <div className="flex flex-wrap gap-4 pt-4">
-                        <Button size="lg" className="rounded-full text-base" onClick={() => document.getElementById("articles")?.scrollIntoView({ behavior: 'smooth' })}>
+                        <Button size="lg" className="rounded-full text-base neo-glow-btn" onClick={() => document.getElementById("articles")?.scrollIntoView({ behavior: 'smooth' })}>
                             查看博客 <ArrowRight className="ml-2 w-4 h-4 rotate-90" />
                         </Button>
-                        <Button size="lg" variant="outline" className="rounded-full text-base bg-white/50 backdrop-blur-sm" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: 'smooth' })}>
+                        <Button size="lg" variant="outline" className="rounded-full text-base neo-outline-btn" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: 'smooth' })}>
                             查看 AI 作品 <ArrowUpRight className="ml-2 w-4 h-4" />
                         </Button>
                     </div>
@@ -124,7 +124,7 @@ export default function HeroSection() {
                                 return (
                                     <motion.div
                                         key={project.id}
-                                        className={`absolute inset-0 rounded-2xl shadow-2xl border border-border p-6 flex flex-col justify-between bg-white overflow-hidden cursor-pointer`}
+                                        className="absolute inset-0 rounded-2xl shadow-2xl border border-[var(--panel-border)] p-6 flex flex-col justify-between neo-card overflow-hidden cursor-pointer"
                                         initial={{ x: "100%", opacity: 0, scale: 0.9, rotateY: -10 }}
                                         animate={{ x: "0%", opacity: 1, scale: 1, rotateY: 0 }}
                                         exit={{ x: "-20%", opacity: 0, scale: 0.9, rotateY: 10 }}
@@ -134,13 +134,33 @@ export default function HeroSection() {
                                     >
                                         <div className="space-y-4">
                                             <div className="flex justify-between items-start">
-                                                <span className="px-2 py-1 bg-black text-white text-xs font-bold rounded">{project.tag}</span>
-                                                <span className="text-4xl">🐱‍💻</span>
+                                                <span className="px-2 py-1 text-xs font-bold rounded neo-chip">{project.tag}</span>
+                                                <span className="text-primary neo-icon" aria-hidden="true">
+                                                    <svg
+                                                        className="w-8 h-8"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                    >
+                                                        <path
+                                                            d="M4 8.5l8-4 8 4v7l-8 4-8-4v-7z"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.5"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                        <path
+                                                            d="M8.2 10.8l3.8-2.2 3.8 2.2v4.4l-3.8 2.2-3.8-2.2v-4.4z"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.3"
+                                                            strokeLinejoin="round"
+                                                        />
+                                                        <circle cx="12" cy="12" r="1.2" fill="currentColor" />
+                                                    </svg>
+                                                </span>
                                             </div>
                                             <div>
                                                 <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
                                                 <p className="text-secondary mb-4">{project.description}</p>
-                                                <div className="w-full h-32 bg-gray-100 rounded-lg mb-4 flex items-center justify-center text-gray-300 overflow-hidden">
+                                                <div className="w-full h-32 rounded-lg mb-4 flex items-center justify-center text-secondary overflow-hidden neo-media">
                                                     {(() => {
                                                         const imageUrl = project.image_url ||
                                                             (project.tag === 'DEV-01' ? '/project-covers/global-markets.png' :
@@ -155,7 +175,7 @@ export default function HeroSection() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+                                        <div className="flex justify-between items-center border-t border-[var(--panel-border)] pt-4 text-secondary">
                                             <span className="font-bold text-sm">DETAILS</span>
                                             <ArrowUpRight className="w-5 h-5" />
                                         </div>
@@ -165,16 +185,16 @@ export default function HeroSection() {
                         </AnimatePresence>
 
                         {/* Stack/Depth effect placeholders behind */}
-                        <div className="absolute top-2 right-[-10px] w-full h-full bg-white rounded-2xl border border-border shadow-lg -z-10 rotate-2 opacity-60"></div>
-                        <div className="absolute top-4 right-[-20px] w-full h-full bg-white rounded-2xl border border-border shadow-md -z-20 rotate-3 opacity-30"></div>
+                        <div className="absolute top-2 right-[-10px] w-full h-full neo-card-alt rounded-2xl border border-[var(--panel-border)] shadow-lg -z-10 rotate-2 opacity-60"></div>
+                        <div className="absolute top-4 right-[-20px] w-full h-full neo-card-alt rounded-2xl border border-[var(--panel-border)] shadow-md -z-20 rotate-3 opacity-30"></div>
                     </div>
 
                     {/* Controls */}
                     <div className="absolute bottom-0 md:bottom-10 right-0 md:right-10 flex gap-2 z-50">
-                        <button onClick={handlePrev} className="p-2 rounded-full border border-black hover:bg-black hover:text-white transition-colors">
+                        <button onClick={handlePrev} className="p-2 rounded-full neo-control-btn transition-colors">
                             <ArrowLeft className="w-4 h-4" />
                         </button>
-                        <button onClick={handleNext} className="p-2 rounded-full border border-black hover:bg-black hover:text-white transition-colors">
+                        <button onClick={handleNext} className="p-2 rounded-full neo-control-btn transition-colors">
                             <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>

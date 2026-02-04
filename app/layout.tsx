@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import CursorTrail from "@/components/CursorTrail";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,8 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} antialiased bg-background text-foreground cyber-theme`}
       >
+        <CursorTrail />
         {children}
       </body>
     </html>

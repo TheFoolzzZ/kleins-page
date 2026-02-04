@@ -60,12 +60,26 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-border/50 h-20 flex items-center">
+        <nav className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center neo-navbar">
             <div className="container mx-auto px-4 md:px-12 flex justify-between items-center max-w-[1280px]">
                 {/* Logo Area */}
                 <Link href="/" className="flex items-center gap-2 group" onClick={(e) => handleScrollTo(e, "#home")}>
-                    <span className="text-xl">🔶</span>
-                    <span className="font-bold text-lg tracking-tight">克莱恩的AI搭子</span>
+                    <span className="text-xl text-primary neo-icon" aria-hidden="true">
+                        <svg
+                            className="w-5 h-5"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                        >
+                            <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+                            <path
+                                d="M12 2v5M12 17v5M2 12h5M17 12h5M4.6 4.6l3.6 3.6M15.8 15.8l3.6 3.6M4.6 19.4l3.6-3.6M15.8 8.2l3.6-3.6"
+                                stroke="currentColor"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                            />
+                        </svg>
+                    </span>
+                    <span className="font-bold text-lg tracking-tight text-foreground">克莱恩的AI搭子</span>
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -79,7 +93,7 @@ export default function Navbar() {
                                 onClick={(e) => handleScrollTo(e, item.href)}
                                 className={cn(
                                     "text-sm font-medium tracking-wide transition-all duration-200 relative",
-                                    isActive ? "text-primary scale-110" : "text-foreground hover:text-primary"
+                                    isActive ? "text-primary scale-110" : "text-foreground/80 hover:text-primary"
                                 )}
                             >
                                 {item.name}
@@ -96,7 +110,7 @@ export default function Navbar() {
 
                 {/* Mobile Menu Toggle */}
                 <button
-                    className="md:hidden p-2"
+                    className="md:hidden p-2 text-foreground"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                 >
                     {isMobileMenuOpen ? <X /> : <Menu />}
@@ -110,7 +124,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden absolute top-20 left-0 right-0 bg-white border-b border-border overflow-hidden shadow-lg"
+                        className="md:hidden absolute top-20 left-0 right-0 neo-panel overflow-hidden shadow-lg"
                     >
                         <div className="flex flex-col p-4 space-y-4">
                             {navItems.map((item) => (
@@ -120,7 +134,7 @@ export default function Navbar() {
                                     onClick={(e) => handleScrollTo(e, item.href)}
                                     className={cn(
                                         "text-lg font-medium p-2 block",
-                                        activeSection === item.name.toLowerCase() ? "text-primary" : "text-foreground"
+                                        activeSection === item.name.toLowerCase() ? "text-primary" : "text-foreground/80"
                                     )}
                                 >
                                     {item.name}

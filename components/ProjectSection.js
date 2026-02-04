@@ -27,7 +27,7 @@ export default function ProjectSection() {
     if (projects.length === 0) return null;
 
     return (
-        <section id="projects" className="py-24 bg-gray-50 relative">
+        <section id="projects" className="py-24 bg-transparent relative">
             <div className="container mx-auto px-4 md:px-12 max-w-[1440px]">
                 <div className="flex items-center gap-4 mb-16">
                     <div className="w-1 h-8 bg-primary"></div>
@@ -35,7 +35,7 @@ export default function ProjectSection() {
                 </div>
 
                 {/* Horizontal Scroll Container */}
-                <div className="flex gap-6 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300">
+                <div className="flex gap-6 overflow-x-auto pb-12 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[rgba(90,140,255,0.3)]">
                     {projects.map((project, index) => (
                         <motion.div
                             key={project.id}
@@ -48,10 +48,10 @@ export default function ProjectSection() {
                                 href={project.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="block h-full bg-white border border-border rounded-2xl overflow-hidden hover:border-primary transition-all duration-300 hover:shadow-xl"
+                                className="block h-full border border-[var(--panel-border)] rounded-2xl overflow-hidden neo-card transition-all duration-300 hover:border-primary hover:shadow-xl"
                             >
                                 {/* Image Area */}
-                                <div className="h-48 bg-gray-100 relative overflow-hidden">
+                                <div className="h-48 relative overflow-hidden neo-media">
                                     {(() => {
                                         const imageUrl = project.image_url ||
                                             (project.tag === 'DEV-01' ? '/project-covers/global-markets.png' :
@@ -60,13 +60,13 @@ export default function ProjectSection() {
                                         return imageUrl ? (
                                             <img src={imageUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                         ) : (
-                                            <div className="w-full h-full flex items-center justify-center text-4xl bg-gray-100">
+                                            <div className="w-full h-full flex items-center justify-center text-4xl">
                                                 💻
                                             </div>
                                         );
                                     })()}
                                     <div className="absolute top-4 left-4">
-                                        <span className="inline-block px-2 py-1 bg-black text-white text-xs font-bold rounded">
+                                        <span className="inline-block px-2 py-1 text-xs font-bold rounded neo-chip">
                                             {project.tag}
                                         </span>
                                     </div>

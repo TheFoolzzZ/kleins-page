@@ -14,7 +14,7 @@ export const Button = React.forwardRef(({ className, variant = "default", size =
                 "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
                 {
                     "bg-primary text-white hover:bg-primary/90": variant === "default",
-                    "bg-transparent border border-black text-black hover:bg-black/5": variant === "outline",
+                    "bg-transparent border border-[var(--panel-border)] text-foreground hover:bg-white/10": variant === "outline",
                     "bg-transparent text-primary hover:underline hover:text-primary/90": variant === "link",
                     "h-10 px-4 py-2": size === "default",
                     "h-9 rounded-md px-3": size === "sm",
