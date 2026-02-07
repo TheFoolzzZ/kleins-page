@@ -283,6 +283,8 @@ flowchart LR
 |------|------|------|----------|
 | Global Markets | 地球的emoji | 股市指数信息查询 |[Enter](https://fb10b3921cc049d695743eeab389fbd2.prod.enter.pro/) |
 | 乐透人生 | 彩票相关的emoji | 抽奖工具 | lottery-life-six.vercel.app |
+| World Famous Palette Gallery | 🎨 | 世界名色画廊 - 探索那些定义了品牌、艺术与时尚的传奇色彩 | https://famous-palette.vercel.app |
+| Way to AI PM | AI/PM相关的emoji | Way to AI PM | https://way-to-ai-pm.vercel.app/ |
 
 **验收标准**
 - [ ] 展示项目轮播，与 Hero 区同一组内容
