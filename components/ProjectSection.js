@@ -15,7 +15,8 @@ export default function ProjectSection() {
             const { data, error } = await supabase
                 .from('projects')
                 .select('*')
-                .order('created_at', { ascending: false });
+                .order('priority', { ascending: true })
+                .order('created_at', { ascending: true });
 
             if (data) {
                 setProjects(data);
