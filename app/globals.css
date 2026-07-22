@@ -40,6 +40,7 @@
   --color-panel-border: var(--panel-border);
 
   --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
 }
 
 body {
@@ -238,34 +239,6 @@ body > * {
   inset: 0;
   pointer-events: none;
   z-index: 3;
-  mix-blend-mode: screen;
-}
-
-.cursor-dot {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: radial-gradient(
-    circle,
-    rgba(180, 245, 255, 1) 0%,
-    rgba(90, 200, 255, 0.8) 55%,
-    transparent 78%
-  );
-  transform: translate(-50%, -50%);
-  animation: dot-fade 0.9s ease-out forwards;
-  filter: drop-shadow(0 0 12px rgba(90, 210, 255, 0.9));
-}
-
-@keyframes dot-fade {
-  0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2);
-  }
 }
 
 @media (prefers-reduced-motion: reduce), (pointer: coarse) {
@@ -278,5 +251,289 @@ body > * {
 @layer utilities {
   .text-shadow {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  /* Scanline texture overlay for panels */
+  .scanlines {
+    position: relative;
+  }
+  .scanlines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      rgba(180, 240, 255, 0.03) 0px,
+      rgba(180, 240, 255, 0.03) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+    border-radius: inherit;
+  }
+
+  /* Neon glow text for hero keywords */
+  .neon-text {
+    color: var(--primary);
+    text-shadow:
+      0 0 8px rgba(64, 226, 255, 0.55),
+      0 0 24px rgba(64, 226, 255, 0.28);
+  }
+
+  /* Terminal blinking cursor */
+  .term-cursor {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.1em;
+    margin-left: 2px;
+    background: var(--primary);
+    vertical-align: text-bottom;
+    animation: term-blink 1.05s steps(1) infinite;
+    box-shadow: 0 0 10px rgba(64, 226, 255, 0.8);
+  }
+
+  /* Subtle card border glow on hover */
+  .glow-border {
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+  .glow-border:hover {
+    border-color: rgba(64, 226, 255, 0.6);
+    box-shadow:
+      0 0 0 1px rgba(64, 226, 255, 0.25),
+      0 12px 40px rgba(64, 226, 255, 0.12);
+  }
+
+  /* Dotted grid backdrop for hero */
+  .dot-grid {
+    background-image: radial-gradient(
+      rgba(120, 200, 255, 0.14) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+}
+
+@keyframes term-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .term-cursor {
+    animation: none;
+    opacity: 1;
+  }
+  .scanlines::after {
+    display: none;
+  }
+}
+
+/* ============================================================
+   PAPER THEME — Anthropic-inspired warm editorial style
+   Activated by <html data-theme="paper">
+   ============================================================ */
+
+html[data-theme="paper"] {
+  --background: #f0eee6;
+  --foreground: #1f1c19;
+  --primary: #cc785c;
+  --secondary: #6b655c;
+  --border: rgba(31, 28, 25, 0.14);
+  --dark-bg: #f0eee6;
+  --gradient-start: #f0eee6;
+  --gradient-mid: #eceade;
+  --gradient-end: #f0eee6;
+  --glow-cyan: rgba(204, 120, 92, 0.06);
+  --glow-violet: rgba(120, 110, 90, 0.05);
+  --star-color: rgba(31, 28, 25, 0.05);
+  --panel: rgba(255, 255, 255, 0.6);
+  --panel-strong: rgba(255, 255, 255, 0.85);
+  --panel-border: rgba(31, 28, 25, 0.12);
+  --panel-glow: rgba(204, 120, 92, 0.08);
+  --panel-glow-strong: rgba(204, 120, 92, 0.18);
+  --neon-blue: #cc785c;
+  --neon-violet: #a08a6d;
+  --neon-ice: #d98d72;
+}
+
+/* Serif display headings + soften body in paper mode */
+html[data-theme="paper"] body {
+  font-family: var(--font-sans), sans-serif;
+}
+
+html[data-theme="paper"] h1,
+html[data-theme="paper"] h2,
+html[data-theme="paper"] h3,
+html[data-theme="paper"] .font-serif-display {
+  font-family: var(--font-newsreader), Georgia, serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Flat warm background — drop gradients, glow, and starfield */
+html[data-theme="paper"] body {
+  background-color: var(--background);
+  background-image: radial-gradient(
+    1000px 700px at 85% -5%,
+    rgba(204, 120, 92, 0.07),
+    transparent 60%
+  );
+  background-attachment: fixed;
+}
+
+html[data-theme="paper"] body::before {
+  display: none;
+}
+
+/* Hide cyber-only flourishes */
+html[data-theme="paper"] #cursor-trail-layer,
+html[data-theme="paper"] .scanlines::after,
+html[data-theme="paper"] .dot-grid {
+  display: none;
+}
+
+html[data-theme="paper"] .term-cursor {
+  background: var(--primary);
+  box-shadow: none;
+}
+
+/* --- Component surfaces restyled for paper --- */
+
+html[data-theme="paper"] .neo-navbar {
+  background: rgba(240, 238, 230, 0.82);
+  border-bottom: 1px solid var(--panel-border);
+  box-shadow: 0 1px 0 rgba(31, 28, 25, 0.04);
+  backdrop-filter: blur(14px);
+}
+
+html[data-theme="paper"] .neo-panel,
+html[data-theme="paper"] .neo-card,
+html[data-theme="paper"] .neo-card-alt {
+  background: #ffffff;
+  border: 1px solid var(--panel-border);
+  box-shadow: 0 1px 3px rgba(31, 28, 25, 0.06), 0 8px 24px rgba(31, 28, 25, 0.05);
+  backdrop-filter: none;
+}
+
+html[data-theme="paper"] .neo-media,
+html[data-theme="paper"] .neo-media-alt {
+  background: linear-gradient(135deg, #f5f2ea, #eceadf);
+  border-bottom: 1px solid var(--panel-border);
+}
+
+html[data-theme="paper"] .neo-chip {
+  background: rgba(204, 120, 92, 0.1);
+  border: 1px solid rgba(204, 120, 92, 0.3);
+  color: #a2583f;
+}
+
+html[data-theme="paper"] .neo-pill {
+  background: rgba(31, 28, 25, 0.05);
+  border: 1px solid var(--panel-border);
+  color: var(--secondary);
+}
+
+html[data-theme="paper"] .neo-control-btn {
+  border: 1px solid var(--panel-border);
+  background: #ffffff;
+  color: var(--foreground);
+  box-shadow: 0 1px 2px rgba(31, 28, 25, 0.06);
+}
+
+html[data-theme="paper"] .neo-control-btn:hover {
+  border-color: var(--primary);
+  background: rgba(204, 120, 92, 0.08);
+  color: var(--primary);
+}
+
+html[data-theme="paper"] .neo-outline-btn {
+  border: 1px solid rgba(31, 28, 25, 0.2);
+  background: transparent;
+  color: var(--foreground);
+}
+
+html[data-theme="paper"] .neo-outline-btn:hover {
+  border-color: var(--primary);
+  background: rgba(204, 120, 92, 0.08);
+}
+
+html[data-theme="paper"] .neo-label {
+  text-shadow: none;
+}
+
+html[data-theme="paper"] .neo-icon {
+  text-shadow: none;
+}
+
+html[data-theme="paper"] .neo-glow-btn {
+  box-shadow: 0 4px 14px rgba(204, 120, 92, 0.3);
+}
+
+html[data-theme="paper"] .neo-modal {
+  background: #ffffff;
+  border: 1px solid var(--panel-border);
+  color: var(--foreground);
+}
+
+html[data-theme="paper"] .neo-footer {
+  background: linear-gradient(180deg, rgba(240,238,230,0) 0%, rgba(233,230,220,0.6) 40%, rgba(228,225,214,0.9) 100%);
+  border-top: 1px solid var(--panel-border);
+}
+
+/* Soften glow effects in paper */
+html[data-theme="paper"] .neon-text {
+  color: var(--primary);
+  text-shadow: none;
+}
+
+html[data-theme="paper"] .glow-border:hover {
+  border-color: rgba(204, 120, 92, 0.5);
+  box-shadow: 0 4px 16px rgba(31, 28, 25, 0.1);
+}
+
+/* Primary button legibility in paper (dark text on terracotta) */
+html[data-theme="paper"] .bg-primary {
+  color: #ffffff;
+}
+
+/* ============================================================
+   PAPER — full-page editorial paging (one module per screen)
+   Desktop + fine pointer only; respects reduced-motion.
+   ============================================================ */
+@media (min-width: 768px) and (pointer: fine) {
+  html[data-theme="paper"] {
+    scroll-snap-type: y proximity;
+    scroll-padding-top: 5rem; /* fixed navbar height */
+  }
+  html[data-theme="paper"] body > * {
+    position: relative;
+    z-index: 1;
+  }
+  html[data-theme="paper"] section,
+  html[data-theme="paper"] footer#about {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+  html[data-theme="paper"] section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="paper"] {
+    scroll-snap-type: none !important;
+    scroll-behavior: auto !important;
+  }
+  html[data-theme="paper"] section {
+    min-height: 0;
   }
 }

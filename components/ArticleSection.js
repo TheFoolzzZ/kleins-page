@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, X, Calendar } from "lucide-react";
+import { ArrowUpRight, X, Calendar, FileText } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
+import SectionHeader from "@/components/cyber/SectionHeader";
+import { useTheme } from "@/components/ThemeProvider";
 
 // Color palette for article cards
 const cardColors = ["neo-media", "neo-media-alt", "neo-media", "neo-media-alt"];
@@ -14,6 +16,8 @@ export default function ArticleSection() {
     const [showArchiveModal, setShowArchiveModal] = useState(false);
     const [allArticles, setAllArticles] = useState([]);
     const router = useRouter();
+    const { theme } = useTheme();
+    const paper = theme === "paper";
 
     useEffect(() => {
         async function fetchArticles() {
@@ -59,28 +63,26 @@ export default function ArticleSection() {
         return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
     };
 
-    // Determine layout based on article count
-    const shouldScroll = articles.length > 4;
+    // Paper shows a single row of 4 (one screen); cyber scrolls when many.
+    const displayed = paper ? articles.slice(0, 4) : articles;
+    const shouldScroll = !paper && articles.length > 4;
 
     return (
         <>
-            <section id="articles" className="py-20 bg-transparent">
-                <div className="container mx-auto px-4 md:px-12 max-w-[1440px]">
+            <section id="articles" className={paper ? "bg-transparent" : "py-20 bg-transparent"}>
+                <div className={`container mx-auto px-4 md:px-12 ${paper ? "max-w-[1280px] w-full" : "max-w-[1440px]"}`}>
                     <div className="flex justify-between items-end mb-16">
-                        <div className="flex items-center gap-4">
-                            <div className="w-4 h-4 bg-primary"></div>
-                            <h2 className="text-3xl font-bold tracking-wide">
-                                LATEST TRANSMISSIONS
-                                <span className="text-secondary font-normal text-xl ml-4 block md:inline mt-2 md:mt-0">
-                                    最新文章
-                                </span>
-                            </h2>
-                        </div>
+                        <SectionHeader
+                            index="03"
+                            title={paper ? "Writing" : "Transmissions"}
+                            subtitle="最新文章 — 思考与实验记录"
+                            className="mb-0"
+                        />
                         <button
                             onClick={fetchAllArticles}
-                            className="hidden md:flex items-center font-bold hover:text-primary transition-colors text-foreground/80"
+                            className={`hidden md:flex items-center text-sm font-bold hover:text-primary transition-colors text-foreground/80 shrink-0 ${paper ? "border-b border-primary/40 pb-1" : "font-mono"}`}
                         >
-                            VIEW ALL <ArrowUpRight className="ml-2 w-4 h-4" />
+                            {paper ? "查看全部" : "VIEW_ALL"} <ArrowUpRight className="ml-2 w-4 h-4" />
                         </button>
                     </div>
 
@@ -90,14 +92,14 @@ export default function ArticleSection() {
                             ? "flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[rgba(90,140,255,0.3)]"
                             : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
                     }>
-                        {articles.map((article, index) => (
+                        {displayed.map((article, index) => (
                             <motion.article
                                 key={article.id}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                                 onClick={() => router.push(`/articles/${article.id}`)}
-                                className={`group cursor-pointer flex flex-col h-full border border-[var(--panel-border)] rounded-lg overflow-hidden transition-all hover:shadow-lg hover:border-primary/50 neo-card ${shouldScroll ? "flex-none w-[85vw] md:w-[calc(25%-18px)] snap-center" : ""
+                                className={`group cursor-pointer flex flex-col h-full border border-[var(--panel-border)] rounded-lg overflow-hidden glow-border neo-card ${shouldScroll ? "flex-none w-[85vw] md:w-[calc(25%-18px)] snap-center" : ""
                                     }`}
                             >
                                 {/* Image Area */}
@@ -109,8 +111,8 @@ export default function ArticleSection() {
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center text-4xl opacity-20">
-                                            📄
+                                        <div className="w-full h-full flex items-center justify-center text-secondary/30">
+                                            <FileText className="w-12 h-12" strokeWidth={1.25} />
                                         </div>
                                     )}
                                     <div className="absolute top-4 left-4 px-2 py-1 text-xs font-mono border border-[var(--panel-border)] neo-panel">
@@ -135,8 +137,11 @@ export default function ArticleSection() {
                                     </p>
 
                                     <div className="pt-4 border-t border-[var(--panel-border)] flex justify-between items-center text-sm text-secondary">
-                                        <span className="text-secondary font-mono">📅 {article.published_at}</span>
-                                        <span className="font-bold flex items-center group-hover:translate-x-1 transition-transform">
+                                        <span className="text-secondary font-mono text-xs flex items-center gap-1.5">
+                                            <Calendar className="w-3.5 h-3.5" />
+                                            {article.published_at}
+                                        </span>
+                                        <span className="font-mono font-bold text-xs flex items-center group-hover:translate-x-1 transition-transform">
                                             READ <ArrowUpRight className="ml-1 w-3 h-3" />
                                         </span>
                                     </div>

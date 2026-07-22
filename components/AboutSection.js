@@ -21,8 +21,8 @@ export default function AboutSection() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mb-24">
                     {/* Left: Next Steps */}
                     <div className="space-y-8">
-                        <h4 className="text-primary font-bold tracking-widest uppercase text-sm">■ NEXT STEPS</h4>
-                        <h2 className="text-5xl md:text-6xl font-bold">Start a Project</h2>
+                        <h4 className="font-mono text-primary font-bold tracking-widest uppercase text-sm">{"[ 04 ] // NEXT_STEPS"}</h4>
+                        <h2 className="text-5xl md:text-6xl font-bold">Start a Project<span className="neon-text">_</span></h2>
                         <p className="text-secondary text-xl max-w-md leading-relaxed">
                             有好的想法？我们一起聊聊。
                         </p>
@@ -39,7 +39,7 @@ export default function AboutSection() {
 
                     {/* Right: Friends */}
                     <div className="space-y-8">
-                        <h4 className="text-secondary font-bold tracking-widest uppercase text-sm">FRIENDS</h4>
+                        <h4 className="font-mono text-secondary font-bold tracking-widest uppercase text-sm">{"// FRIENDS"}</h4>
                         <ul className="space-y-6">
                             {friendLinks.map((link) => (
                                 <li key={link.name}>

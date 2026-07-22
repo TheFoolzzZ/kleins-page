@@ -1,204 +1,213 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight, ArrowLeft, ArrowUpRight } from "lucide-react";
+import {
+    ArrowRight,
+    ArrowUpRight,
+    Github,
+    MessageSquare,
+    Music,
+    Tv,
+    BookOpen,
+    Cpu,
+} from "lucide-react";
 import { Button } from "@/components/ui";
 import { supabase } from "@/lib/supabase";
+import TerminalPanel from "@/components/cyber/TerminalPanel";
+import { useTheme } from "@/components/ThemeProvider";
+
+const socials = [
+    { label: "WeChat", icon: MessageSquare, href: "#" },
+    { label: "Blog", icon: BookOpen, href: "#articles" },
+    { label: "Music", icon: Music, href: "#" },
+    { label: "GitHub", icon: Github, href: "#" },
+    { label: "Video", icon: Tv, href: "#" },
+];
 
 export default function HeroSection() {
     const [projects, setProjects] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(true);
+    const { theme } = useTheme();
+    const paper = theme === "paper";
 
     useEffect(() => {
         async function fetchProjects() {
             if (!supabase) return;
-
-            const { data, error } = await supabase
-                .from('projects')
-                .select('*')
-                .order('priority', { ascending: true })
-                .order('created_at', { ascending: true });
-
-            if (data) {
-                setProjects(data);
-            }
+            const { data } = await supabase
+                .from("projects")
+                .select("*")
+                .order("priority", { ascending: true })
+                .order("created_at", { ascending: true });
+            if (data) setProjects(data);
         }
         fetchProjects();
     }, []);
 
-    useEffect(() => {
-        let interval;
-        if (isPlaying && projects.length > 0) {
-            interval = setInterval(() => {
-                setCurrentIndex((prev) => (prev + 1) % projects.length);
-            }, 3000);
-        }
-        return () => clearInterval(interval);
-    }, [isPlaying, projects.length]);
-
-    const handleNext = () => {
-        if (projects.length === 0) return;
-        setCurrentIndex((prev) => (prev + 1) % projects.length);
-        setIsPlaying(false);
-    };
-
-    const handlePrev = () => {
-        if (projects.length === 0) return;
-        setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
-        setIsPlaying(false);
-    };
-
-    // Show nothing if no projects loaded yet to avoid hydration mismatch layout shift
-    // Or show a loading skeleton. For now, we just start rendering when data is there or empty array.
-    const currentProject = projects[currentIndex];
+    const scrollTo = (id) =>
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
 
     return (
         <section
             id="home"
-            className="min-h-[80vh] pt-24 pb-10 flex items-start relative overflow-hidden bg-transparent"
+            className={`min-h-[92vh] pt-28 pb-16 flex items-center relative overflow-hidden bg-transparent ${paper ? "" : "dot-grid"}`}
         >
-            <div className="container mx-auto px-4 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center max-w-[1280px]">
-
+            <div className="container mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-14 items-center max-w-[1280px] relative z-10">
                 {/* Left Content */}
-                <div className="space-y-8 relative z-10">
-                    <div className="flex items-center gap-2 text-primary font-bold neo-label">
-                        <span className="w-8 h-[2px] bg-primary block"></span>
-                        AI EXPLORER 2026
-                    </div>
-
-                    <h1 className="text-6xl md:text-7xl font-bold leading-[1.1] tracking-tight text-shadow">
-                        HELLO<span className="text-primary inline-block w-4 h-4 md:w-5 md:h-5 bg-primary ml-1 align-baseline lg:align-middle"></span>
-                    </h1>
+                <div className="space-y-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className={`flex items-center gap-3 text-xs md:text-sm uppercase ${
+                            paper
+                                ? "font-mono text-primary tracking-[0.3em]"
+                                : "font-mono text-primary tracking-[0.3em]"
+                        }`}
+                    >
+                        <Cpu className="w-4 h-4" />
+                        <span className="w-8 h-px bg-primary/70" />
+                        {paper ? "AI Explorer · 2026" : "system.online // AI_EXPLORER_2026"}
+                    </motion.div>
 
                     <div className="space-y-4">
-                        <h2 className="text-3xl md:text-5xl font-bold text-foreground">
-                            我是克莱恩，<br />
-                            <span className="relative">
-                                AI 时代的探索者
-                                <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
-                                    <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
-                                </svg>
-                            </span>
-                        </h2>
-                        <p className="text-xl md:text-2xl text-secondary font-medium">
-                            一个干了多年研发的 B 端产品经理
-                        </p>
+                        {paper ? (
+                            <>
+                                <motion.h1
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.08 }}
+                                    className="font-serif-display text-6xl md:text-7xl leading-[1.05]"
+                                >
+                                    你好，我是
+                                    <br />
+                                    克莱恩<span className="text-primary">。</span>
+                                </motion.h1>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.16 }}
+                                    className="font-serif-display italic text-2xl md:text-3xl text-secondary"
+                                >
+                                    AI 时代的探索者
+                                </motion.p>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.24 }}
+                                    className="text-base md:text-lg text-secondary max-w-md leading-relaxed"
+                                >
+                                    一个干了多年研发的 B 端产品经理，相信好的工具值得被认真打磨。
+                                </motion.p>
+                            </>
+                        ) : (
+                            <>
+                                <motion.h1
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.08 }}
+                                    className="text-6xl md:text-7xl font-bold leading-[1.05] tracking-tight"
+                                >
+                                    HELLO<span className="neon-text">_</span>
+                                </motion.h1>
+
+                                <motion.h2
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.16 }}
+                                    className="text-3xl md:text-5xl font-bold text-foreground"
+                                >
+                                    我是克莱恩，
+                                    <br />
+                                    <span className="neon-text">AI 时代的探索者</span>
+                                </motion.h2>
+
+                                <motion.p
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.45, delay: 0.24 }}
+                                    className="font-mono text-base md:text-lg text-secondary"
+                                >
+                                    <span className="text-primary">~</span> 一个干了多年研发的
+                                    B 端产品经理
+                                </motion.p>
+                            </>
+                        )}
                     </div>
 
-                    <blockquote className="border-l-4 border-primary pl-6 py-2 text-lg text-secondary/80 italic max-w-lg">
-                        "The difference between just getting it done and doing it right is often <strong>just a little bit more effort</strong>."
-                    </blockquote>
+                    <motion.blockquote
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: 0.3 }}
+                        className={`pl-5 py-1 max-w-lg ${
+                            paper
+                                ? "border-l-2 border-primary/60 font-serif-display italic text-lg md:text-xl text-foreground/80"
+                                : "border-l-2 border-primary/70 text-base md:text-lg text-secondary/80 italic"
+                        }`}
+                    >
+                        &quot;The difference between just getting it done and doing
+                        it right is often{" "}
+                        <strong className={paper ? "text-primary font-medium not-italic" : "text-foreground not-italic"}>
+                            just a little bit more effort
+                        </strong>
+                        .&quot;
+                    </motion.blockquote>
 
-                    <div className="flex items-center gap-4 text-xl font-medium text-foreground">
-                        <span className="w-1 h-8 bg-primary block"></span>
-                        拥抱AI，给你的人生提提效。
-                    </div>
-
-                    <div className="flex flex-wrap gap-4 pt-4">
-                        <Button size="lg" className="rounded-full text-base neo-glow-btn" onClick={() => document.getElementById("articles")?.scrollIntoView({ behavior: 'smooth' })}>
+                    <motion.div
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.45, delay: 0.36 }}
+                        className="flex flex-wrap gap-4 pt-2"
+                    >
+                        <Button
+                            size="lg"
+                            className="rounded-full text-base neo-glow-btn"
+                            onClick={() => scrollTo("articles")}
+                        >
                             查看博客 <ArrowRight className="ml-2 w-4 h-4 rotate-90" />
                         </Button>
-                        <Button size="lg" variant="outline" className="rounded-full text-base neo-outline-btn" onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: 'smooth' })}>
+                        <Button
+                            size="lg"
+                            variant="outline"
+                            className="rounded-full text-base neo-outline-btn"
+                            onClick={() => scrollTo("projects")}
+                        >
                             查看 AI 作品 <ArrowUpRight className="ml-2 w-4 h-4" />
                         </Button>
-                    </div>
+                    </motion.div>
 
-                    {/* Social Icons Placeholder */}
-                    <div className="flex gap-4 text-2xl pt-4 opacity-50">
-                        <span>💬</span><span>📕</span><span>🎵</span><span>🐙</span><span>📺</span>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.45, delay: 0.44 }}
+                        className="flex gap-3 pt-2"
+                    >
+                        {socials.map(({ label, icon: Icon, href }) => (
+                            <a
+                                key={label}
+                                href={href}
+                                aria-label={label}
+                                onClick={
+                                    href.startsWith("#")
+                                        ? (e) => {
+                                              e.preventDefault();
+                                              scrollTo(href.slice(1));
+                                          }
+                                        : undefined
+                                    }
+                                className="p-2.5 rounded-lg border border-[var(--panel-border)] text-secondary hover:text-primary hover:border-primary/60 transition-colors glow-border"
+                            >
+                                <Icon className="w-4 h-4" />
+                            </a>
+                        ))}
+                    </motion.div>
                 </div>
 
-                {/* Right Carousel: Book Flip Effect */}
-                <div
-                    className="relative h-[400px] md:h-[500px] w-full flex items-center justify-center perspective-[1000px]"
-                    onMouseEnter={() => setIsPlaying(false)}
-                    onMouseLeave={() => setIsPlaying(true)}
-                >
-                    <div className="relative w-full max-w-[320px] md:max-w-[380px] aspect-[3/4]">
-                        <AnimatePresence initial={false}>
-                            {projects.map((project, index) => {
-                                if (index !== currentIndex) return null;
-
-                                return (
-                                    <motion.div
-                                        key={project.id}
-                                        className="absolute inset-0 rounded-2xl shadow-2xl border border-[var(--panel-border)] p-6 flex flex-col justify-between neo-card overflow-hidden cursor-pointer"
-                                        initial={{ x: "100%", opacity: 0, scale: 0.9, rotateY: -10 }}
-                                        animate={{ x: "0%", opacity: 1, scale: 1, rotateY: 0 }}
-                                        exit={{ x: "-20%", opacity: 0, scale: 0.9, rotateY: 10 }}
-                                        transition={{ duration: 0.6, ease: "easeOut" }}
-                                        style={{ zIndex: 10 }}
-                                        onClick={() => window.open(project.url, '_blank')}
-                                    >
-                                        <div className="space-y-4">
-                                            <div className="flex justify-between items-start">
-                                                <span className="px-2 py-1 text-xs font-bold rounded neo-chip">{project.tag}</span>
-                                                <span className="text-primary neo-icon" aria-hidden="true">
-                                                    <svg
-                                                        className="w-8 h-8"
-                                                        viewBox="0 0 24 24"
-                                                        fill="none"
-                                                    >
-                                                        <path
-                                                            d="M4 8.5l8-4 8 4v7l-8 4-8-4v-7z"
-                                                            stroke="currentColor"
-                                                            strokeWidth="1.5"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                        <path
-                                                            d="M8.2 10.8l3.8-2.2 3.8 2.2v4.4l-3.8 2.2-3.8-2.2v-4.4z"
-                                                            stroke="currentColor"
-                                                            strokeWidth="1.3"
-                                                            strokeLinejoin="round"
-                                                        />
-                                                        <circle cx="12" cy="12" r="1.2" fill="currentColor" />
-                                                    </svg>
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <h3 className="text-2xl font-bold mb-2">{project.title}</h3>
-                                                <p className="text-secondary mb-4">{project.description}</p>
-                                                <div className="w-full h-32 rounded-lg mb-4 flex items-center justify-center text-secondary overflow-hidden neo-media">
-                                                    {(() => {
-                                                        const imageUrl = project.image_url ||
-                                                            (project.tag === 'DEV-01' ? '/project-covers/global-markets.png' :
-                                                                project.tag === 'DEV-02' ? '/project-covers/lottery-life.png' : null);
-
-                                                        return imageUrl ? (
-                                                            <img src={imageUrl} className="w-full h-full object-cover" />
-                                                        ) : (
-                                                            "Project Preview"
-                                                        );
-                                                    })()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="flex justify-between items-center border-t border-[var(--panel-border)] pt-4 text-secondary">
-                                            <span className="font-bold text-sm">DETAILS</span>
-                                            <ArrowUpRight className="w-5 h-5" />
-                                        </div>
-                                    </motion.div>
-                                );
-                            })}
-                        </AnimatePresence>
-
-                        {/* Stack/Depth effect placeholders behind */}
-                        <div className="absolute top-2 right-[-10px] w-full h-full neo-card-alt rounded-2xl border border-[var(--panel-border)] shadow-lg -z-10 rotate-2 opacity-60"></div>
-                        <div className="absolute top-4 right-[-20px] w-full h-full neo-card-alt rounded-2xl border border-[var(--panel-border)] shadow-md -z-20 rotate-3 opacity-30"></div>
-                    </div>
-
-                    {/* Controls */}
-                    <div className="absolute bottom-0 md:bottom-10 right-0 md:right-10 flex gap-2 z-50">
-                        <button onClick={handlePrev} className="p-2 rounded-full neo-control-btn transition-colors">
-                            <ArrowLeft className="w-4 h-4" />
-                        </button>
-                        <button onClick={handleNext} className="p-2 rounded-full neo-control-btn transition-colors">
-                            <ArrowRight className="w-4 h-4" />
-                        </button>
-                    </div>
+                {/* Right: Terminal showing featured projects */}
+                <div className="flex items-center justify-center lg:justify-end">
+                    <TerminalPanel
+                        projects={projects}
+                        onOpen={(p) => p.url && window.open(p.url, "_blank")}
+                    />
                 </div>
             </div>
         </section>
