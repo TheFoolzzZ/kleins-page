@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, TerminalSquare, Feather } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/components/ui";
+import { useTheme } from "@/components/ThemeProvider";
 
 const navItems = [
     { name: "HOME", href: "#home" },
@@ -17,6 +18,7 @@ const navItems = [
 export default function Navbar() {
     const [activeSection, setActiveSection] = useState("home");
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { theme, toggleTheme } = useTheme();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -92,15 +94,18 @@ export default function Navbar() {
                                 href={item.href}
                                 onClick={(e) => handleScrollTo(e, item.href)}
                                 className={cn(
-                                    "text-sm font-medium tracking-wide transition-all duration-200 relative",
-                                    isActive ? "text-primary scale-110" : "text-foreground/80 hover:text-primary"
+                                    "font-mono text-[13px] font-medium tracking-widest transition-all duration-200 relative",
+                                    isActive ? "text-primary" : "text-foreground/70 hover:text-primary"
                                 )}
                             >
+                                {isActive && (
+                                    <span className="text-primary/60 mr-1 select-none">{"//"}</span>
+                                )}
                                 {item.name}
                                 {isActive && (
                                     <motion.div
                                         layoutId="underline"
-                                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary"
+                                        className="absolute -bottom-1 left-0 right-0 h-[2px] bg-primary shadow-[0_0_8px_rgba(64,226,255,0.8)]"
                                     />
                                 )}
                             </a>
@@ -108,13 +113,29 @@ export default function Navbar() {
                     })}
                 </div>
 
-                {/* Mobile Menu Toggle */}
-                <button
-                    className="md:hidden p-2 text-foreground"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                >
-                    {isMobileMenuOpen ? <X /> : <Menu />}
-                </button>
+                {/* Theme Toggle + Mobile Menu Toggle */}
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={toggleTheme}
+                        aria-label={theme === "cyber" ? "Switch to paper theme" : "Switch to cyber theme"}
+                        title={theme === "cyber" ? "切换到暖纸风格" : "切换到赛博风格"}
+                        className="p-2 rounded-lg border border-[var(--panel-border)] text-secondary hover:text-primary hover:border-primary/60 transition-colors glow-border"
+                    >
+                        {theme === "cyber" ? (
+                            <Feather className="w-4 h-4" />
+                        ) : (
+                            <TerminalSquare className="w-4 h-4" />
+                        )}
+                    </button>
+
+                    <button
+                        className="md:hidden p-2 text-foreground"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isMobileMenuOpen ? <X /> : <Menu />}
+                    </button>
+                </div>
             </div>
 
             {/* Mobile Menu */}
